@@ -6,7 +6,7 @@
 # --- Required options --- #
 
 # Name of website
-title: Philippe Gonzalez's blog
+title: Philippe Gonzalez's website
 
 # Your name to show in the footer
 author: Philippe Gonzalez
@@ -14,11 +14,11 @@ author: Philippe Gonzalez
 # --- List of links in the navigation bar --- #
 
 navbar-links:
-  About Me: "Acoustics and Signal Processing Engineer"
+  About Me: "aboutme"
   Resources:
     - Beautiful Jekyll: "https://beautifuljekyll.com"
     - Learn markdown: "https://www.markdowntutorial.com/"
-  Author's home: "https://philgzl.github.io"
+#  Author's home: "https://philgzl.github.io"
 
 # --- Logo --- #
 
@@ -44,11 +44,11 @@ social-network-links:
   github: philgzl
 #  twitter: daattali
 #  reddit: yourname
-#  linkedin: philgzl
+  linkedin: philgzl
 #  xing: yourname
 #  stackoverflow: "3943160/daattali"
 #  snapchat: deanat78
-#  instagram: deanat78
+  instagram: philgzl
 #  youtube: user/deanat78
 #  spotify: yourname
 #  telephone: +14159998888
