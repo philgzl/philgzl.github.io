@@ -1,0 +1,650 @@
+---
+layout: post
+title: "Speech enhancement examples using Conv-TasNet"
+date: 2022-05-18 00:00:00 +0000
+categories: speech enhancement
+---
+
+<style type="text/css">
+  table {
+    margin-top: 50px;
+    margin-bottom: 50px;
+  }
+  th, td {
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 12pt;
+  }
+  audio {
+    width: 85px;
+  }
+  table {
+    overflow-x: auto;
+    display: block;
+  }
+  figure {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  figure img {
+    width: 55%;
+    margin-top: 30px;
+    margin-bottom: 30px;
+  }
+  figure figcaption {
+    font-size: 12pt;  
+  }
+  .col-lg-8 {
+    max-width: 100%;
+  }
+  .play, .pause {
+    width: 30px;
+    height: 30px;
+    border: 0px;
+  }
+  .play {
+    background: url('https://www.freeiconspng.com/uploads/video-play-icon-15.gif') no-repeat center / 100%;
+  }
+  .pause {
+      background: url('https://www.freeiconspng.com/uploads/pause-icon-19.png') no-repeat center / 100%;
+  }
+</style>
+
+Below are some example noisy and reverberant mixtures enhanced by a <cite><a href="https://arxiv.org/abs/1809.07454">Conv-TasNet</a></cite> model. Conv-TasNet was originally designed as a source separation algorithm, but it can be trained to perform speech enhancement by setting only one separated source as the clean speech signal.
+
+The loss function was set to what I define as the foreground-to-background ratio (FBR), instead of the usual signal-to-noise ratio (SNR) or scale-invariant signal-to-noise ratio (SI-SNR). Since I want the system to perform both denoising and dereverberation, the foreground is defined as the clean speech signal including early reflections up to 50 ms, while the background is defined as the sum of the noise signal and the late reflections from the speech signal.
+
+The model was trained on 30 hours of noisy and reverberant mixtures generated from multiple speech, noise and binaural room impulse response (BRIR) databases. An overview of the different databases is shown below.
+
+<figure>
+  <img src="/assets/images/databases.svg"> 
+  <figcaption><b>Fig.1:</b> Overview of the different databases used for generating the noisy and reverberant mixtures</figcaption>
+</figure>
+
+Note that even though the model was trained on mixtures randomly generated from all the databases, each database was split into disjoint training and testing sets, such that the examples at the end of this post consist of speech utterances, noise segments and impulse responses that were not seen during training.
+
+The table below reports the enhancement performance in terms of <cite><a href="https://en.wikipedia.org/wiki/Perceptual_Evaluation_of_Speech_Quality">PESQ</a></cite>, <cite><a href="https://ieeexplore.ieee.org/document/5495701">STOI</a></cite> and FBR improvement for each example. These examples were not cherry-picked; some examples show great improvements, while others add some distorsions.
+
+<table>
+  <tr>
+    <th>Speech</th>
+    <th>Noise</th>
+    <th>Room</th>
+    <th>FBR</th>
+    <th>Input</th>
+    <th>Output</th>
+    <th>&Delta;PESQ</th>
+    <th>&Delta;STOI</th>
+    <th>&Delta;FBR</th>
+  </tr>
+  <tr>
+    <td>librispeech</td>
+    <td>arte_library</td>
+    <td>bras_rs5</td>
+    <td align="right">3.4</td>
+    <td align="center"><audio><source src="/assets/audio/00001_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00001_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.55</td>
+    <td align="right">0.01</td>
+    <td align="right">4.1</td>
+  </tr>
+  <tr>
+    <td>wsj0</td>
+    <td>icra_06</td>
+    <td>catt_04</td>
+    <td align="right">1.0</td>
+    <td align="center"><audio><source src="/assets/audio/00003_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00003_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.26</td>
+    <td align="right">0.08</td>
+    <td align="right">6.2</td>
+  </tr>
+  <tr>
+    <td>clarity</td>
+    <td>arte_streetbalcony</td>
+    <td>ash_r08</td>
+    <td align="right">-2.3</td>
+    <td align="center"><audio><source src="/assets/audio/00006_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00006_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.39</td>
+    <td align="right">0.04</td>
+    <td align="right">3.2</td>
+  </tr>
+  <tr>
+    <td>clarity</td>
+    <td>demand_pstation</td>
+    <td>ash_r31</td>
+    <td align="right">9.3</td>
+    <td align="center"><audio><source src="/assets/audio/00008_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00008_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.46</td>
+    <td align="right">0.02</td>
+    <td align="right">3.0</td>
+  </tr>
+  <tr>
+    <td>timit</td>
+    <td>tau_shoppingmall</td>
+    <td>bras_cr3</td>
+    <td align="right">9.6</td>
+    <td align="center"><audio><source src="/assets/audio/00011_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00011_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.52</td>
+    <td align="right">0.14</td>
+    <td align="right">7.1</td>
+  </tr>
+  <tr>
+    <td>wsj0</td>
+    <td>demand_dliving</td>
+    <td>ash_r35</td>
+    <td align="right">-0.4</td>
+    <td align="center"><audio><source src="/assets/audio/00020_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00020_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.44</td>
+    <td align="right">0.04</td>
+    <td align="right">3.2</td>
+  </tr>
+  <tr>
+    <td>timit</td>
+    <td>noisex_pink</td>
+    <td>ash_r10</td>
+    <td align="right">7.5</td>
+    <td align="center"><audio><source src="/assets/audio/00022_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00022_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.52</td>
+    <td align="right">0.10</td>
+    <td align="right">4.5</td>
+  </tr>
+  <tr>
+    <td>wsj0</td>
+    <td>demand_presto</td>
+    <td>catt_03</td>
+    <td align="right">6.6</td>
+    <td align="center"><audio><source src="/assets/audio/00028_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00028_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.20</td>
+    <td align="right">0.02</td>
+    <td align="right">4.2</td>
+  </tr>
+  <tr>
+    <td>vctk</td>
+    <td>arte_church1</td>
+    <td>ash_r16</td>
+    <td align="right">-2.8</td>
+    <td align="center"><audio><source src="/assets/audio/00029_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00029_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.01</td>
+    <td align="right">0.02</td>
+    <td align="right">5.2</td>
+  </tr>
+  <tr>
+    <td>librispeech</td>
+    <td>icra_07</td>
+    <td>avil_high</td>
+    <td align="right">5.9</td>
+    <td align="center"><audio><source src="/assets/audio/00030_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00030_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.65</td>
+    <td align="right">0.10</td>
+    <td align="right">7.5</td>
+  </tr>
+  <tr>
+    <td>clarity</td>
+    <td>arte_church1</td>
+    <td>bras_cr2</td>
+    <td align="right">9.3</td>
+    <td align="center"><audio><source src="/assets/audio/00031_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00031_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.26</td>
+    <td align="right">0.16</td>
+    <td align="right">10.6</td>
+  </tr>
+  <tr>
+    <td>timit</td>
+    <td>arte_office</td>
+    <td>avil_high</td>
+    <td align="right">-2.8</td>
+    <td align="center"><audio><source src="/assets/audio/00035_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00035_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.68</td>
+    <td align="right">0.07</td>
+    <td align="right">4.2</td>
+  </tr>
+  <tr>
+    <td>clarity</td>
+    <td>noisex_f16</td>
+    <td>surrey_anechoic</td>
+    <td align="right">5.1</td>
+    <td align="center"><audio><source src="/assets/audio/00038_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00038_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.34</td>
+    <td align="right">0.04</td>
+    <td align="right">8.5</td>
+  </tr>
+  <tr>
+    <td>clarity</td>
+    <td>arte_cafe1</td>
+    <td>surrey_d</td>
+    <td align="right">-4.4</td>
+    <td align="center"><audio><source src="/assets/audio/00040_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00040_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.27</td>
+    <td align="right">0.09</td>
+    <td align="right">4.1</td>
+  </tr>
+  <tr>
+    <td>timit</td>
+    <td>demand_ohallway</td>
+    <td>bras_cr4</td>
+    <td align="right">9.8</td>
+    <td align="center"><audio><source src="/assets/audio/00043_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00043_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.54</td>
+    <td align="right">0.15</td>
+    <td align="right">8.7</td>
+  </tr>
+  <tr>
+    <td>vctk</td>
+    <td>noisex_m109</td>
+    <td>ash_r16</td>
+    <td align="right">6.4</td>
+    <td align="center"><audio><source src="/assets/audio/00052_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00052_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.43</td>
+    <td align="right">0.10</td>
+    <td align="right">5.3</td>
+  </tr>
+  <tr>
+    <td>clarity</td>
+    <td>icra_04</td>
+    <td>ash_r08</td>
+    <td align="right">8.9</td>
+    <td align="center"><audio><source src="/assets/audio/00054_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00054_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.24</td>
+    <td align="right">0.06</td>
+    <td align="right">3.1</td>
+  </tr>
+  <tr>
+    <td>clarity</td>
+    <td>demand_ohallway</td>
+    <td>avil_high</td>
+    <td align="right">3.7</td>
+    <td align="center"><audio><source src="/assets/audio/00060_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00060_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.94</td>
+    <td align="right">0.05</td>
+    <td align="right">4.9</td>
+  </tr>
+  <tr>
+    <td>timit</td>
+    <td>arte_trainstation</td>
+    <td>bras_cr3</td>
+    <td align="right">-0.9</td>
+    <td align="center"><audio><source src="/assets/audio/00063_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00063_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.23</td>
+    <td align="right">0.14</td>
+    <td align="right">7.7</td>
+  </tr>
+  <tr>
+    <td>clarity</td>
+    <td>noisex_factory2</td>
+    <td>ash_r16</td>
+    <td align="right">8.0</td>
+    <td align="center"><audio><source src="/assets/audio/00068_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00068_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.03</td>
+    <td align="right">0.09</td>
+    <td align="right">4.9</td>
+  </tr>
+  <tr>
+    <td>vctk</td>
+    <td>noisex_machinegun</td>
+    <td>surrey_d</td>
+    <td align="right">-4.3</td>
+    <td align="center"><audio><source src="/assets/audio/00071_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00071_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.04</td>
+    <td align="right">0.08</td>
+    <td align="right">8.6</td>
+  </tr>
+  <tr>
+    <td>wsj0</td>
+    <td>noisex_volvo</td>
+    <td>ash_r09</td>
+    <td align="right">5.5</td>
+    <td align="center"><audio><source src="/assets/audio/00072_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00072_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.40</td>
+    <td align="right">0.02</td>
+    <td align="right">5.6</td>
+  </tr>
+  <tr>
+    <td>vctk</td>
+    <td>arte_library</td>
+    <td>catt_04</td>
+    <td align="right">3.0</td>
+    <td align="center"><audio><source src="/assets/audio/00079_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00079_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">-0.25</td>
+    <td align="right">-0.04</td>
+    <td align="right">-0.3</td>
+  </tr>
+  <tr>
+    <td>wsj0</td>
+    <td>icra_07</td>
+    <td>surrey_anechoic</td>
+    <td align="right">2.7</td>
+    <td align="center"><audio><source src="/assets/audio/00081_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00081_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.37</td>
+    <td align="right">0.18</td>
+    <td align="right">9.2</td>
+  </tr>
+  <tr>
+    <td>vctk</td>
+    <td>arte_church1</td>
+    <td>surrey_a</td>
+    <td align="right">-0.4</td>
+    <td align="center"><audio><source src="/assets/audio/00085_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00085_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.46</td>
+    <td align="right">0.01</td>
+    <td align="right">2.1</td>
+  </tr>
+  <tr>
+    <td>clarity</td>
+    <td>arte_church1</td>
+    <td>catt_02</td>
+    <td align="right">8.0</td>
+    <td align="center"><audio><source src="/assets/audio/00091_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00091_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.49</td>
+    <td align="right">0.00</td>
+    <td align="right">-0.9</td>
+  </tr>
+  <tr>
+    <td>clarity</td>
+    <td>icra_08</td>
+    <td>avil_low</td>
+    <td align="right">0.7</td>
+    <td align="center"><audio><source src="/assets/audio/00092_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00092_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.06</td>
+    <td align="right">0.13</td>
+    <td align="right">5.5</td>
+  </tr>
+  <tr>
+    <td>clarity</td>
+    <td>noisex_factory1</td>
+    <td>avil_medium</td>
+    <td align="right">4.2</td>
+    <td align="center"><audio><source src="/assets/audio/00093_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00093_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.13</td>
+    <td align="right">0.15</td>
+    <td align="right">5.2</td>
+  </tr>
+  <tr>
+    <td>vctk</td>
+    <td>demand_npark</td>
+    <td>ash_r37</td>
+    <td align="right">1.2</td>
+    <td align="center"><audio><source src="/assets/audio/00094_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00094_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.42</td>
+    <td align="right">0.03</td>
+    <td align="right">2.9</td>
+  </tr>
+  <tr>
+    <td>timit</td>
+    <td>arte_streetbalcony</td>
+    <td>surrey_c</td>
+    <td align="right">-4.1</td>
+    <td align="center"><audio><source src="/assets/audio/00096_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00096_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.13</td>
+    <td align="right">0.08</td>
+    <td align="right">7.7</td>
+  </tr>
+  <tr>
+    <td>wsj0</td>
+    <td>noisex_hfchannel</td>
+    <td>ash_r15</td>
+    <td align="right">0.7</td>
+    <td align="center"><audio><source src="/assets/audio/00100_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00100_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.38</td>
+    <td align="right">0.12</td>
+    <td align="right">6.9</td>
+  </tr>
+  <tr>
+    <td>timit</td>
+    <td>icra_02</td>
+    <td>catt_04</td>
+    <td align="right">1.7</td>
+    <td align="center"><audio><source src="/assets/audio/00102_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00102_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.09</td>
+    <td align="right">0.09</td>
+    <td align="right">5.9</td>
+  </tr>
+  <tr>
+    <td>vctk</td>
+    <td>arte_office</td>
+    <td>catt_10</td>
+    <td align="right">-4.6</td>
+    <td align="center"><audio><source src="/assets/audio/00103_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00103_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.27</td>
+    <td align="right">0.00</td>
+    <td align="right">4.4</td>
+  </tr>
+  <tr>
+    <td>wsj0</td>
+    <td>icra_01</td>
+    <td>ash_r35</td>
+    <td align="right">3.9</td>
+    <td align="center"><audio><source src="/assets/audio/00108_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00108_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.26</td>
+    <td align="right">0.07</td>
+    <td align="right">4.7</td>
+  </tr>
+  <tr>
+    <td>vctk</td>
+    <td>icra_02</td>
+    <td>catt_06</td>
+    <td align="right">-2.3</td>
+    <td align="center"><audio><source src="/assets/audio/00114_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00114_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.12</td>
+    <td align="right">0.10</td>
+    <td align="right">7.2</td>
+  </tr>
+  <tr>
+    <td>timit</td>
+    <td>noisex_destroyerengine</td>
+    <td>avil_anechoic</td>
+    <td align="right">-1.4</td>
+    <td align="center"><audio><source src="/assets/audio/00115_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00115_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.39</td>
+    <td align="right">0.15</td>
+    <td align="right">11.0</td>
+  </tr>
+  <tr>
+    <td>clarity</td>
+    <td>tau_airport</td>
+    <td>ash_r39</td>
+    <td align="right">1.9</td>
+    <td align="center"><audio><source src="/assets/audio/00119_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00119_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.24</td>
+    <td align="right">0.03</td>
+    <td align="right">3.4</td>
+  </tr>
+  <tr>
+    <td>clarity</td>
+    <td>icra_05</td>
+    <td>avil_anechoic</td>
+    <td align="right">3.4</td>
+    <td align="center"><audio><source src="/assets/audio/00121_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00121_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.17</td>
+    <td align="right">0.09</td>
+    <td align="right">5.4</td>
+  </tr>
+  <tr>
+    <td>timit</td>
+    <td>arte_church2</td>
+    <td>avil_low</td>
+    <td align="right">-4.5</td>
+    <td align="center"><audio><source src="/assets/audio/00122_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00122_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.21</td>
+    <td align="right">0.10</td>
+    <td align="right">7.9</td>
+  </tr>
+  <tr>
+    <td>clarity</td>
+    <td>noisex_buccaneer2</td>
+    <td>bras_cr3</td>
+    <td align="right">-3.8</td>
+    <td align="center"><audio><source src="/assets/audio/00124_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00124_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.05</td>
+    <td align="right">0.16</td>
+    <td align="right">8.9</td>
+  </tr>
+  <tr>
+    <td>librispeech</td>
+    <td>noisex_pink</td>
+    <td>ash_r31</td>
+    <td align="right">2.2</td>
+    <td align="center"><audio><source src="/assets/audio/00125_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00125_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.32</td>
+    <td align="right">0.08</td>
+    <td align="right">5.3</td>
+  </tr>
+  <tr>
+    <td>clarity</td>
+    <td>arte_foodcourt1</td>
+    <td>ash_r06</td>
+    <td align="right">7.8</td>
+    <td align="center"><audio><source src="/assets/audio/00126_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00126_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.74</td>
+    <td align="right">0.03</td>
+    <td align="right">4.3</td>
+  </tr>
+  <tr>
+    <td>timit</td>
+    <td>icra_07</td>
+    <td>surrey_a</td>
+    <td align="right">7.7</td>
+    <td align="center"><audio><source src="/assets/audio/00127_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00127_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.60</td>
+    <td align="right">0.14</td>
+    <td align="right">4.6</td>
+  </tr>
+  <tr>
+    <td>vctk</td>
+    <td>icra_07</td>
+    <td>avil_low</td>
+    <td align="right">1.9</td>
+    <td align="center"><audio><source src="/assets/audio/00134_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00134_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.15</td>
+    <td align="right">0.12</td>
+    <td align="right">6.3</td>
+  </tr>
+  <tr>
+    <td>clarity</td>
+    <td>noisex_leopard</td>
+    <td>surrey_a</td>
+    <td align="right">9.2</td>
+    <td align="center"><audio><source src="/assets/audio/00135_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00135_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.36</td>
+    <td align="right">0.01</td>
+    <td align="right">2.6</td>
+  </tr>
+  <tr>
+    <td>clarity</td>
+    <td>demand_presto</td>
+    <td>catt_10</td>
+    <td align="right">2.5</td>
+    <td align="center"><audio><source src="/assets/audio/00137_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00137_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.15</td>
+    <td align="right">0.10</td>
+    <td align="right">3.3</td>
+  </tr>
+  <tr>
+    <td>clarity</td>
+    <td>demand_nfield</td>
+    <td>surrey_b</td>
+    <td align="right">-2.2</td>
+    <td align="center"><audio><source src="/assets/audio/00138_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00138_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.35</td>
+    <td align="right">0.03</td>
+    <td align="right">3.2</td>
+  </tr>
+  <tr>
+    <td>wsj0</td>
+    <td>noisex_buccaneer1</td>
+    <td>bras_cr2</td>
+    <td align="right">5.1</td>
+    <td align="center"><audio><source src="/assets/audio/00148_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00148_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.23</td>
+    <td align="right">0.21</td>
+    <td align="right">9.2</td>
+  </tr>
+  <tr>
+    <td>timit</td>
+    <td>arte_foodcourt2</td>
+    <td>bras_cr2</td>
+    <td align="right">0.5</td>
+    <td align="center"><audio><source src="/assets/audio/00158_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00158_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.36</td>
+    <td align="right">0.19</td>
+    <td align="right">7.9</td>
+  </tr>
+  <tr>
+    <td>timit</td>
+    <td>arte_cafe2</td>
+    <td>avil_high</td>
+    <td align="right">-2.0</td>
+    <td align="center"><audio><source src="/assets/audio/00161_input.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="center"><audio><source src="/assets/audio/00161_output.flac" type="audio/flac"></audio><button onclick="playAudio(this)" class="play" type="button"></button></td>
+    <td align="right">0.59</td>
+    <td align="right">0.13</td>
+    <td align="right">5.6</td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+function playAudio(x) {
+    var y = x.parentElement.querySelector('audio');
+    var z = x.getAttribute('class');
+
+    if (z === 'play') {
+        y.play();
+        x.setAttribute('class', 'pause');
+    } else {
+        y.pause();
+        x.setAttribute('class', 'play');
+    }
+
+    y.onended = function () {
+        x.setAttribute('class', 'play');
+    }
+}
+</script>
