@@ -9,6 +9,8 @@ categories: speech enhancement
   table {
     margin-top: 50px;
     margin-bottom: 50px;
+    margin-left: auto;
+    margin-right: auto;
   }
   th, td {
     padding-left: 10px;
@@ -44,10 +46,10 @@ categories: speech enhancement
     border: 0px;
   }
   .play {
-    background: url('https://www.freeiconspng.com/uploads/video-play-icon-15.gif') no-repeat center / 100%;
+    background: url('/assets/img/icon_play.png') no-repeat center / 100%;
   }
   .pause {
-      background: url('https://www.freeiconspng.com/uploads/pause-icon-19.png') no-repeat center / 100%;
+      background: url('/assets/img/icon_pause.png') no-repeat center / 100%;
   }
 </style>
 
@@ -58,7 +60,7 @@ The loss function was set to what I define as the foreground-to-background ratio
 The model was trained on 30 hours of noisy and reverberant mixtures generated from multiple speech, noise and binaural room impulse response (BRIR) databases. An overview of the different databases is shown below.
 
 <figure>
-  <img src="/assets/images/databases.svg"> 
+  <img src="/assets/img/databases.svg"> 
   <figcaption><b>Fig.1:</b> Overview of the different databases used for generating the noisy and reverberant mixtures</figcaption>
 </figure>
 
