@@ -1,0 +1,60 @@
+---
+title: Mixes
+layout: page
+---
+
+<style type="text/css">
+  .mixcloud-thumbnail {
+    position: relative;
+    display: inline-block;
+    width: 240px;
+    height: 240px;
+    margin: 20px;
+    background-size: cover;
+  }
+
+  .play-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    cursor: pointer;
+    height: 80px;
+    width: 80px;
+    background-color: transparent;
+  }
+
+  .play-btn:hover {
+    filter: brightness(0.8);
+  }
+
+  .thumbnail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 280px);
+    grid-gap: 0px;
+    justify-content: space-between;
+  }
+</style>
+
+<script src="//widget.mixcloud.com/media/js/widgetApi.js" type="text/javascript"></script>
+
+<script src="//widget.mixcloud.com/media/js/footerWidgetApi.js" async>
+{"feed": "/philgzl/mix-4/"}
+</script>
+
+<div class="thumbnail-grid">
+  <div class="mixcloud-thumbnail" data-mixcloud-play-button="/philgzl/mix-4/" style="background-image: url(https://thumbnailer.mixcloud.com/unsafe/300x300/extaudio/4/1/b/0/84f8-5216-4445-a5db-74eee95ae01e);">
+      <svg class="play-btn" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" stroke="none" width="24" height="24" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+  </div>
+  <div class="mixcloud-thumbnail" data-mixcloud-play-button="/philgzl/mix-3/" style="background-image: url(https://thumbnailer.mixcloud.com/unsafe/300x300/extaudio/e/7/b/3/f3b1-cee9-4b4d-b3d5-e9bc106bfcc7);">
+      <svg class="play-btn" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" stroke="none" width="24" height="24" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+  </div>
+  <div class="mixcloud-thumbnail" data-mixcloud-play-button="/philgzl/mix-2/" style="background-image: url(https://thumbnailer.mixcloud.com/unsafe/300x300/extaudio/1/8/4/7/44e3-d6e9-43ba-b0a8-619580cb201e);">
+      <svg class="play-btn" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" stroke="none" width="24" height="24" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+  </div>
+  <div class="mixcloud-thumbnail" data-mixcloud-play-button="/philgzl/mix-1/" style="background-image: url(https://thumbnailer.mixcloud.com/unsafe/300x300/extaudio/8/f/7/1/0780-1a14-4d66-a419-4c86faee92c5);">
+      <svg class="play-btn" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" stroke="none" width="24" height="24" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+  </div>
+</div>
