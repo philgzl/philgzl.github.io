@@ -39,7 +39,7 @@ support: [jquery, gallery]
   {% for filename in page.filenames %}
   <div class="grid-item">
     <a class="image" href="{{ page.baseurl }}/{{ page.folder }}/{{ filename }}">
-      <img src="{{ page.baseurl }}/w_400,dpr_1.25/{{ page.folder }}/{{ filename }}">
+      <img src="{{ page.baseurl }}/{{ page.folder }}/{{ filename }}">
     </a>
   </div>
   {% endfor %}
