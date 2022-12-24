@@ -69,3 +69,8 @@ page_gen:
     template: 'gallery'
     name: 'page'
     dir: 'photos/scotland'
+
+# Collections
+collections:
+  posts:
+    permalink: /posts/:name
