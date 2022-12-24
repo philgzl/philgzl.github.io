@@ -1,20 +1,27 @@
----
-layout: null
-sitemap:
-  exclude: 'yes'
----
 [
-  {% for post in site.posts %}
+  
     {
-      "title"    : "{{ post.title | escape }}",
-      "title-lower"    : "{{ post.title | escape | downcase}}",
-      "sub-titile" : "{{ post.subtitle | escape }}",
-      "sub-titile-lower" : "{{ post.subtitle | escape | downcase}}",
-      "categories" : "{{ post.categories }}",
-      "tags"     : "{{ post.tags | join: ', ' }}",
-      "url"      : "{{ site.baseurl }}{{ post.url }}",
-      "date"     : "{{ post.date }}",
-      "content"     : "{{ post.content | strip_html | strip_newlines | remove_chars | escape | truncate:200 }}"
-    } {% unless forloop.last %},{% endunless %}
-  {% endfor %}
+      "title"    : "Batching of variable size inputs with PyTorch",
+      "title-lower"    : "batching of variable size inputs with pytorch",
+      "sub-titile" : "",
+      "sub-titile-lower" : "",
+      "categories" : "deep learningbatchingPyTorch",
+      "tags"     : "",
+      "url"      : "/posts/2022-08-04-batching",
+      "date"     : "2022-08-04 02:00:00 +0200",
+      "content"     : "Batching training examples when optimizing a neural network usually relies on training examples being the same size. However, when dealing with sequential data, which is usually the case in speech ..."
+    } ,
+  
+    {
+      "title"    : "Realistic speech enhancement examples using Conv-TasNet",
+      "title-lower"    : "realistic speech enhancement examples using conv-tasnet",
+      "sub-titile" : "",
+      "sub-titile-lower" : "",
+      "categories" : "speech enhancementdemos",
+      "tags"     : "",
+      "url"      : "/posts/2022-05-18-samples",
+      "date"     : "2022-05-18 02:00:00 +0200",
+      "content"     : "Below are some example noisy and reverberant mixtures enhanced by a Conv-TasNet model. Conv-TasNet was originally designed as a source separation algorithm, but it can be trained to perform speech ..."
+    } 
+  
 ]

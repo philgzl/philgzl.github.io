@@ -1,6 +1,3 @@
----
----
-
 window.onload = function () {
     var $searchbar = document.getElementById('searchbar');
     var $searchResults = document.getElementById('search-results');
@@ -11,7 +8,7 @@ window.onload = function () {
     SimpleJekyllSearch({
         searchInput: $searchbar,
         resultsContainer: $searchResults,
-        json: '{{ "/search.json" | relative_url }}',
+        json: '/search.json',
         searchResultTemplate: '<a href="{url}" target="_blank">{title}</a>',
         noResultsText: ''
     });
