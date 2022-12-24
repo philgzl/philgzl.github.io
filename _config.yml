@@ -60,3 +60,12 @@ remote_theme: samarsault/plainwhite-jekyll
 plugins:
   - jekyll-seo-tag
 #  - jekyll-feed
+  - jekyll-datapage-generator
+
+# Page generator
+page_gen-dirs: true
+page_gen:
+  - data: 'photos.scotland'
+    template: 'gallery'
+    name: 'page'
+    dir: 'photos/scotland'

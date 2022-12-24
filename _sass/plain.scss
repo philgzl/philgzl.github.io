@@ -164,7 +164,7 @@ main {
 
     a {
       display: block;
-      font-family: 'Merriweather';
+      color: inherit;
       text-align: center;
       padding: 1rem 0;
       text-decoration: none;
@@ -172,6 +172,10 @@ main {
 
       @media screen and (max-width: $mobileW) {
         padding: 2rem 0;
+      }
+
+      &:hover {
+        color: #4da3ff;
       }
     }
   }

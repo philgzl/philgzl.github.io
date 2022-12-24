@@ -1,0 +1,79 @@
+---
+layout: page
+support: [jquery, gallery]
+---
+
+<style type="text/css">
+  .grid-item img {
+     width: 100% !important;
+     height: auto !important;
+     display: block;
+  }
+
+  .grid-sizer,
+  .grid-item {
+    width: 33%;
+  }
+
+  .grid-item {
+    padding: 5px;
+  }
+
+  @media (max-width: 1200px) {
+    .grid-sizer,
+    .grid-item {
+      width: 50%;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .grid-sizer,
+    .grid-item {
+      width: 100%;
+    }
+  }
+</style>
+
+<div id="grid">
+  <div class="grid-sizer"></div>
+  {% for filename in page.filenames %}
+  <div class="grid-item">
+    <a class="image" href="{{ page.baseurl }}/{{ page.folder }}/{{ filename }}">
+      <img src="{{ page.baseurl }}/w_400,dpr_1.25/{{ page.folder }}/{{ filename }}">
+    </a>
+  </div>
+  {% endfor %}
+</div>
+
+<script>
+  lightGallery(document.getElementById('grid'), {
+    selector: '.image'
+  });
+
+  var $grid = $('#grid').masonry({
+    itemSelector: '.none',
+    percentPosition: true,
+    columnWidth: '.grid-sizer',
+  });
+
+  let msnry = $grid.data('masonry');
+
+  $grid.imagesLoaded( function() {
+    $grid.removeClass('are-images-unloaded');
+    $grid.masonry('option', {itemSelector: '.grid-item'});
+    var $items = $grid.find('.grid-item');
+    $grid.masonry('appended', $items);
+  });
+
+  $grid.infiniteScroll({
+    path: function() {
+      let pageNumber = ( this.loadCount + 2 );
+      if ( pageNumber <= {{ page.pagecount }} ) {
+        return `/photos/{{ page.folder }}/page${pageNumber}`;
+      }
+    },
+    append: '.grid-item',
+    outlayer: msnry,
+    history: false,
+  });
+</script>

@@ -8,3 +8,15 @@
 {% if site.plainwhite.dark_mode %}
 <script type="text/javascript" src="{{ "/assets/js/darkmode.js" | relative_url }}"></script>
 {% endif %}
+
+{% if page.support contains 'jquery' %}
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+{% endif %}
+
+{% if page.support contains 'gallery' %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.0/css/lightgallery.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.0/lightgallery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/5.0.0/imagesloaded.pkgd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-infinitescroll/4.0.1/infinite-scroll.pkgd.min.js"></script>
+{% endif %}
