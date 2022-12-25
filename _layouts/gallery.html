@@ -46,7 +46,7 @@ support: [jquery, gallery]
 </div>
 
 <script>
-  lightGallery(document.getElementById('grid'), {
+  let lg = lightGallery(document.getElementById('grid'), {
     selector: '.image'
   });
 
@@ -75,5 +75,9 @@ support: [jquery, gallery]
     append: '.grid-item',
     outlayer: msnry,
     history: false,
+  });
+
+  $grid.on('append.infiniteScroll', function(event, body, path, items, response) {
+    lg.refresh()
   });
 </script>
