@@ -118,6 +118,14 @@
       width: 100%;
     }
   }
+
+  .lg-backdrop.in {
+    opacity: 0.8 !important;
+  }
+
+  .lg-container *:not(.lg-backdrop.in) {
+    background-color: transparent;
+  }
 </style>
 
 <div id="grid">
@@ -217,7 +225,11 @@
 
 <script>
   let lg = lightGallery(document.getElementById('grid'), {
-    selector: '.image'
+    selector: '.image',
+    download: false,
+    mobileSettings: {
+      showCloseIcon: true,
+    }
   });
 
   var $grid = $('#grid').masonry({
