@@ -1,27 +1,15 @@
 [
   
     {
-      "title"    : "Batching of variable size inputs with PyTorch",
-      "title-lower"    : "batching of variable size inputs with pytorch",
+      "title"    : "Sample blog post",
+      "title-lower"    : "sample blog post",
       "sub-titile" : "",
       "sub-titile-lower" : "",
-      "categories" : "deep learningbatchingPyTorch",
+      "categories" : "none",
       "tags"     : "",
-      "url"      : "/posts/2022-08-04-batching",
-      "date"     : "2022-08-04 02:00:00 +0200",
-      "content"     : "Batching training examples when optimizing a neural network usually relies on training examples being the same size. However, when dealing with sequential data, which is usually the case in speech ..."
-    } ,
-  
-    {
-      "title"    : "Realistic speech enhancement examples using Conv-TasNet",
-      "title-lower"    : "realistic speech enhancement examples using conv-tasnet",
-      "sub-titile" : "",
-      "sub-titile-lower" : "",
-      "categories" : "speech enhancementdemos",
-      "tags"     : "",
-      "url"      : "/posts/2022-05-18-samples",
-      "date"     : "2022-05-18 02:00:00 +0200",
-      "content"     : "Below are some example noisy and reverberant mixtures enhanced by a Conv-TasNet model. Conv-TasNet was originally designed as a source separation algorithm, but it can be trained to perform speech ..."
+      "url"      : "/posts/2023-04-09-sample",
+      "date"     : "2023-04-09 02:00:00 +0200",
+      "content"     : "Sample blog post. Nothing to see here.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vitae nisi aliquam ligula consequat pharetra vel ac mauris. Phasellus iaculis imperdiet lorem ..."
     } 
   
 ]
