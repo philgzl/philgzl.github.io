@@ -14,6 +14,15 @@
 			display: inline;
 		}
 	}
+
+	.navigation {
+	  ul {
+	    a {
+	      border-bottom: 1px solid #333;
+	    }
+	  }
+	}
+
 	.post p {
 		color: #ddd;
 	}
