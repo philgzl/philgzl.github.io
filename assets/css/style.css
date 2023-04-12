@@ -1183,6 +1183,10 @@ input:checked + .slider:before {
 .dark * .about img.dark {
   display: inline;
 }
+.dark .navigation ul a,
+.dark * .navigation ul a {
+  border-bottom: 1px solid #333;
+}
 .dark .post p,
 .dark * .post p {
   color: #ddd;
