@@ -1,7 +1,7 @@
 .dark,
 .dark * {
 	$dark_text_color: #f6f6f6;
-	$dark_link_color: #4da3ff;
+	$dark_link_color: #0a59b0;
 	background-color: #171717;
 	color: $dark_text_color;
 	border-color: #e6e6e6;
@@ -25,6 +25,15 @@
 
 	.post p {
 		color: #ddd;
+	}
+
+	.post a {
+		color: $dark_link_color;
+		border-color: #0a59b000;
+		&:hover {
+			color: $dark_link_color;
+			border-color: $dark_link_color;
+		}
 	}
 
 	.social [class^="icon-"] {
@@ -115,6 +124,7 @@
 			color: white;
 		}
 	}
+
 }
 .dark table {
 	th, td {
