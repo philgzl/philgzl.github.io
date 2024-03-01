@@ -636,7 +636,6 @@ main {
 main .about {
   display: flex;
   height: 100vh;
-  padding-bottom: 15vh;
   min-width: 220px;
   justify-content: center;
   flex-direction: column;
@@ -734,7 +733,7 @@ main .about .about-header .about-title {
   }
 }
 .navigation ul a:hover {
-  color: #4da3ff;
+  color: #0a59b0;
 }
 
 .post-wrapper {
@@ -819,7 +818,6 @@ main .about .about-header .about-title {
 }
 
 .post {
-  font-family: "Merriweather", sans-serif;
   font-weight: 300;
   color: #222;
   line-height: 1.9em;
@@ -831,9 +829,11 @@ main .about .about-header .about-title {
   color: #0a59b0;
   text-decoration: none;
   transition: border-bottom 0.4s;
+  border-color: rgba(10, 89, 176, 0);
 }
 .post a:hover {
   border-bottom: 0.5px solid #0a59b0;
+  border-color: #0a59b0;
 }
 .post h1,
 .post h2,
@@ -911,6 +911,11 @@ footer {
     margin: 0 20px;
   }
 }
+.abstract {
+  font-size: 15px;
+  line-height: 1.3em;
+}
+
 /* Post Label And Search */
 /* Hack iOS Safari Unfocus */
 main {
@@ -1190,6 +1195,16 @@ input:checked + .slider:before {
 .dark .post p,
 .dark * .post p {
   color: #ddd;
+}
+.dark .post a,
+.dark * .post a {
+  color: #0a59b0;
+  border-color: rgba(10, 89, 176, 0);
+}
+.dark .post a:hover,
+.dark * .post a:hover {
+  color: #0a59b0;
+  border-color: #0a59b0;
 }
 .dark .social [class^=icon-],
 .dark * .social [class^=icon-] {
@@ -1503,7 +1518,7 @@ input:checked + .slider:before {
 }
 .dark a,
 .dark * a {
-  color: #4da3ff;
+  color: #0a59b0;
 }
 .dark #title a,
 .dark * #title a {
@@ -1511,7 +1526,7 @@ input:checked + .slider:before {
 }
 .dark #title a:hover,
 .dark * #title a:hover {
-  color: #4da3ff;
+  color: #0a59b0;
 }
 .dark .posts-labelgroup,
 .dark * .posts-labelgroup {

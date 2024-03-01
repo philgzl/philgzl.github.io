@@ -71,12 +71,20 @@
         <ul>
           
           <li>
-            <a href="/about">About</a>
+            <a href="/">Home</a>
+          </li>
+          
+          <li>
+            <a href="/mixes">Mixes</a>
+          </li>
+          
+          <li>
+            <a href="/photos">Photos</a>
           </li>
           
         </ul>
-      </nav><p class="about-footer condensed">&copy;
-        2023</p><div class="about-footer condensed">
+      </nav><!--       <p class="about-footer condensed">&copy;
+        2024</p> --><div class="about-footer condensed">
         <p>Dark Mode
           <i class="icon-moon"></i>
           <label class="switch">
@@ -125,6 +133,56 @@
 
   .lg-container *:not(.lg-backdrop.in) {
     background-color: transparent;
+  }
+
+  .loader-ellips {
+    font-size: 20px;
+    position: relative;
+    width: 4em;
+    height: 1em;
+    margin: 10px auto;
+  }
+
+  .loader-ellips__dot {
+    display: block;
+    width: 1em;
+    height: 1em;
+    border-radius: 0.5em;
+    background: #333;
+    position: absolute;
+    animation-duration: 0.5s;
+    animation-timing-function: ease;
+    animation-iteration-count: infinite;
+  }
+
+  .loader-ellips__dot--1,
+  .loader-ellips__dot--2 {
+    left: 0;
+  }
+  .loader-ellips__dot--3 { left: 1.5em; }
+  .loader-ellips__dot--4 { left: 3em; }
+
+  @keyframes reveal {
+    from { transform: scale(0.001); }
+    to { transform: scale(1); }
+  }
+
+  @keyframes slide {
+    to { transform: translateX(1.5em) }
+  }
+
+  .loader-ellips__dot--1 {
+    animation-name: reveal;
+  }
+
+  .loader-ellips__dot--2,
+  .loader-ellips__dot--3 {
+    animation-name: slide;
+  }
+
+  .loader-ellips__dot--4 {
+    animation-name: reveal;
+    animation-direction: reverse;
   }
 </style>
 
@@ -223,6 +281,17 @@
   
 </div>
 
+<div class="scroll-status">
+  <div class="infinite-scroll-request">
+    <div class="loader-ellips">
+      <span class="loader-ellips__dot loader-ellips__dot--1"></span>
+      <span class="loader-ellips__dot loader-ellips__dot--2"></span>
+      <span class="loader-ellips__dot loader-ellips__dot--3"></span>
+      <span class="loader-ellips__dot loader-ellips__dot--4"></span>
+    </div>
+  </div>
+</div>
+
 <script>
   let lg = lightGallery(document.getElementById('grid'), {
     selector: '.image',
@@ -257,6 +326,7 @@
     append: '.grid-item',
     outlayer: msnry,
     history: false,
+    status: '.scroll-status'
   });
 
   $grid.on('append.infiniteScroll', function(event, body, path, items, response) {
@@ -284,12 +354,20 @@
         <ul>
           
           <li>
-            <a href="/about">About</a>
+            <a href="/">Home</a>
+          </li>
+          
+          <li>
+            <a href="/mixes">Mixes</a>
+          </li>
+          
+          <li>
+            <a href="/photos">Photos</a>
           </li>
           
         </ul>
-      </nav><p class="about-footer condensed">&copy;
-        2023</p><div class="about-footer condensed">
+      </nav><!--       <p class="about-footer condensed">&copy;
+        2024</p> --><div class="about-footer condensed">
         <p>Dark Mode
           <i class="icon-moon"></i>
           <label class="switch">
