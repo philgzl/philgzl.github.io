@@ -96,9 +96,9 @@
                     const paddedNumber = String(i).padStart(5, '0');
                     let src;
                     if (method.id === 'input') {
-                        src = `lst/${method.id}/${paddedNumber}.wav`;
+                        src = `audio/lst/${method.id}/${paddedNumber}.wav`;
                     } else {
-                        src = `lst/${method.id}-${condition}/${paddedNumber}.wav`;
+                        src = `audio/lst/${method.id}-${condition}/${paddedNumber}.wav`;
                     }
                     const audio = createAudioElement(src);
                     td.appendChild(audio);
