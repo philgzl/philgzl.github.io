@@ -70,9 +70,9 @@ title: Discriminative Speech Enhancement Systems Outperform Diffusion-Based Syst
                     const paddedNumber = String(i).padStart(5, '0');
                     let src;
                     if (method.id === 'input') {
-                        src = `audio/lst/${method.id}/${paddedNumber}.wav`;
+                        src = `https://media.philgzl.com/audio/lst/${method.id}/${paddedNumber}.wav`;
                     } else {
-                        src = `audio/lst/${method.id}-${condition}/${paddedNumber}.wav`;
+                        src = `https://media.philgzl.com/audio/lst/${method.id}-${condition}/${paddedNumber}.wav`;
                     }
                     const audio = createAudioElement(src);
                     td.appendChild(audio);
