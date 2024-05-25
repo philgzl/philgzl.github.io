@@ -5,7 +5,7 @@ title: Philippe Gonzalez
 
 # About me
 
-I am a PhD student in the Hearing Systems section at the Technical University of Denmark, supervised by Tobias May and Tommy Sonne Alstrøm. My research interests include audio signal processing, deep learning-based speech enhancement and source separation, the generalization of learning-based systems, and model-based hearing loss compensation.
+I am a postdoctoral researcher at the Hearing Systems section at the Technical University of Denmark. I wrote my PhD thesis on deep learning-based speech enhancement from 2020 to 2023 at the Technical University of Denmark under the supervision of Tobias May and Tommy Sonne Alstrøm. My research interests include audio signal processing, deep learning-based speech enhancement and source separation, the generalization of learning-based systems, and model-based hearing loss compensation.
 
 As a kid, I grew up in Colombia, Ivory Coast, Turkey, and Peru. I can speak English, French, Spanish, and some Danish. I play the bass in band, collect vinyl records, and occasionally DJ at parties. I like playing video games, especially Dota 2 in which I am a highly ranked player. Other hobbies include tennis, electronics, photography, and chess. I love dogs.
 
