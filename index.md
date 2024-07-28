@@ -11,6 +11,14 @@ As a kid, I grew up in Colombia, Ivory Coast, Turkey, and Peru. I can speak Engl
 
 # Publications
 
+## <a href="https://doi.org/10.48550/arXiv.2406.06160">The Effect of Training Dataset Size on Discriminative and Diffusion-Based Speech Enhancement Systems</a>
+
+Philippe Gonzalez, Zheng-Hua Tan, Jan Østergaard, Jesper Jensen, Tommy Sonne Alstrøm, and Tobias May.
+
+In review. <a href="/lst">Audio examples</a>.
+
+<p class=abstract>Abstract: The performance of deep neural network-based speech enhancement systems typically increases with the training dataset size. However, studies that investigated the effect of training dataset size on speech enhancement performance did not consider recent approaches, such as diffusion-based generative models. Diffusion models are typically trained with massive datasets for image generation tasks, but whether this is also required for speech enhancement is unknown. Moreover, studies that investigated the effect of training dataset size did not control for the data diversity. It is thus unclear whether the performance improvement was due to the increased dataset size or diversity. Therefore, we systematically investigate the effect of training dataset size on the performance of popular state-of-the-art discriminative and diffusion-based speech enhancement systems. We control for the data diversity by using a fixed set of speech utterances, noise segments and binaural room impulse responses to generate datasets of different sizes. We find that the diffusion-based systems do not benefit from increasing the training dataset size as much as the discriminative systems. They perform the best relative to the discriminative systems with datasets of 10 h or less, but they are outperformed by the discriminative systems with datasets of 100 h or more.</p>
+
 ## <a href="https://doi.org/10.48550/arXiv.2312.04370">Investigating the Design Space of Diffusion Models for Speech Enhancement</a>
 
 Philippe Gonzalez, Zheng-Hua Tan, Jan Østergaard, Jesper Jensen, Tommy Sonne Alstrøm, and Tobias May.
